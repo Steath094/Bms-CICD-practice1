@@ -1,13 +1,17 @@
 import { WebSocketServer } from 'ws';
-
+import dotenv from 'dotenv'
+import { connectDB, User } from '@repo/db';
+dotenv.config()
+await connectDB();
 const wss = new WebSocketServer({ port: 8080 });
 
-wss.on('connection', function connection(ws) {
+wss.on('connection', async function connection(ws) {
     ws.on('error', console.error);
-
-    ws.on('message', function message(data) {
-        console.log('received: %s', data);
-    });
+    console.log("User Connectect");
+    await User.create({
+        username: Math.random().toString(36).substring(7),
+        hashedPassword: Math.random().toString(36).substring(7)
+    })
 
     ws.send('something');
 });
