@@ -24,7 +24,7 @@ export async function connectDB() {
     }
 
     if (!cached.mongoose!.promise) {
-        cached.mongoose!.promise = mongoose.connect(`${MONGODB_URI}/bms`, {
+        cached.mongoose!.promise = mongoose.connect(`${MONGODB_URI}`, {
             bufferCommands: false,
         });
     }
