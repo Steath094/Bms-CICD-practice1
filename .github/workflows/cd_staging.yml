@@ -1,0 +1,21 @@
+name : "Deploy To staging"
+on: 
+  push:
+    branches:
+      - "main"
+
+jobs:
+  redeploy:
+    name: "Deploying to staging env"
+    runs-on: ubuntu-latest
+    steps:
+      - name : "SSH into server"
+      - run: |
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@${{ secrets.STAGING_SERVER_IP }}
+          cd Bms-CICD-practice1
+          git pull origin main
+          pnpm install
+          pnpm run build
+          pm2 restart app
+      
+
